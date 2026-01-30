@@ -114,7 +114,7 @@ document.write(semestres.map((materias, i) => `
 </div>
 `).join(""));
 </script>
-
+ 
 </div>
 
 <script>
@@ -127,7 +127,10 @@ function actualizarProgreso() {
   semestres.forEach((_, i) => {
     const semMaterias = document.querySelectorAll(`[data-id^="${i}-"]`);
     const aprob = [...semMaterias].filter(m => m.classList.contains("aprobada")).length;
-    document.getElementById(`sem-${i}`).style.width = (aprob / semMaterias.length * 100) + "%";
+    const porcentaje = Math.round(aprobadas / total * 100);
+
+document.getElementById("progreso-general").style.width = porcentaje + "%";
+document.getElementById("progreso-texto").textContent = porcentaje + "%";
     aprobadas += aprob;
   });
 
@@ -146,7 +149,7 @@ materias.forEach(m => {
     localStorage.setItem(m.dataset.id, m.classList[1]);
     actualizarProgreso();
   };
-});
+}); 
 
 actualizarProgreso();
 </script>
