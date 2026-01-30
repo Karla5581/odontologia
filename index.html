@@ -4,90 +4,100 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Odontología</title>
-  
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  padding: 20px;
-}
 
-h1 {
-  text-align: center;
-  color: #333;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
 
-.progress-container {
-  max-width: 1000px;
-  margin: 20px auto;
-}
+    h1 {
+      text-align: center;
+      color: #333;
+    }
 
-.progress-label {
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #444;
-}
+    /* Progreso general */
+    .progress-container {
+      max-width: 1000px;
+      margin: 20px auto;
+    }
 
-.progress-bar {
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 14px;
-}
+    .progress-label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #444;
+      display: flex;
+      justify-content: space-between;
+    }
 
-.progress {
-  height: 100%;
-  width: 0%;
-  background: #7fbf9b;
-  transition: width 0.3s;
-}
+    .progress-bar {
+      background: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 14px;
+    }
 
-.malla {
-  display: grid;
-  gap: 20px;
-} 
-/* Computadora */
-@media (min-width: 1024px) {
-  .malla {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-/* Teléfono */
-@media (max-width: 1023px) {
-  .malla {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: #7fbf9b;
+      transition: width 0.3s;
+    }
 
+    /* Malla */
+    .malla {
+      display: grid;
+      gap: 20px;
+    }
 
-.semestre {
-  background: #ffffff;
-  padding: 15px;
-  border-radius: 14px;
-  min-width: 260px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
+    /* Computadora */
+    @media (min-width: 1024px) {
+      .malla {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
 
-.semestre h3 {
-  text-align: center;
-  color: #333;
-}
+    /* Teléfono */
+    @media (max-width: 1023px) {
+      .malla {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
 
-.materia {
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
-}
+    .semestre {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
 
-/* Estados */
-.pendiente { background: #e5e5e5; color: #444; }
-.curso { background: #e8dcc6; color: #4a3b1f; }
-.aprobada { background: #cfe8d8; color: #245c3a; }
-</style>
+    .semestre h3 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .materia {
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    /* Estados */
+    .pendiente { background: #e5e5e5; color: #444; }
+    .curso { background: #e8dcc6; color: #4a3b1f; }
+    .aprobada {
+      background: #cfe8d8;
+      color: #245c3a;
+      text-decoration: line-through;
+      opacity: 0.75;
+    }
+  </style>
 </head>
 
 <body>
@@ -97,15 +107,16 @@ h1 {
 <!-- PROGRESO GENERAL -->
 <div class="progress-container">
   <div class="progress-label">
-  Overall career progress: <span id="progreso-texto">0%</span>
-</div> 
+    <span>Overall career progress</span>
+    <span id="progreso-texto">0%</span>
+  </div>
   <div class="progress-bar">
     <div class="progress" id="progreso-general"></div>
-  </div> 
+  </div>
 </div>
 
 <div class="malla">
- 
+
 <script>
 const semestres = [
   ["Anatomía Humana I","Embriología","Histología","Bioquímica","Anatomía Dental","Psicología"],
@@ -119,19 +130,25 @@ const semestres = [
   ["Ortodoncia y Ortopedia Dentomaxilofacial","Clínica de Cirugía Bucal","Administración de Consultorio Dental","Seminario de Casos Clínicos","Seminario de Tesis"]
 ];
 
-document.write(semestres.map((materias, i) => `
-<div class="semestre">
-  <h3>${i+1}° Semestre</h3>
-  <div class="progress-bar"><div class="progress" id="sem-${i}"></div></div>
-  ${materias.map((m,j)=>`<div class="materia pendiente" data-id="${i}-${j}">${m}</div>`).join("")}
-</div>
-`).join(""));
+document.write(
+  semestres.map((materias, i) => `
+    <div class="semestre">
+      <h3>${i + 1}° Semestre</h3>
+      <div class="progress-bar">
+        <div class="progress" id="sem-${i}"></div>
+      </div>
+      ${materias.map((m, j) =>
+        `<div class="materia pendiente" data-id="${i}-${j}">${m}</div>`
+      ).join("")}
+    </div>
+  `).join("")
+);
 </script>
- 
+
 </div>
 
 <script>
-const materias = document.querySelectorAll('.materia');
+const materias = document.querySelectorAll(".materia");
 
 function actualizarProgreso() {
   let total = materias.length;
@@ -139,18 +156,14 @@ function actualizarProgreso() {
 
   semestres.forEach((_, i) => {
     const semMaterias = document.querySelectorAll(`[data-id^="${i}-"]`);
-    const aprob = [...semMaterias].filter(m =>
-      m.classList.contains("aprobada")
-    ).length; 
- 
-    // ✅ barra por semestre
+    const aprob = [...semMaterias].filter(m => m.classList.contains("aprobada")).length;
+
     document.getElementById(`sem-${i}`).style.width =
       (aprob / semMaterias.length * 100) + "%";
 
     aprobadas += aprob;
   });
 
-  // ✅ progreso general
   const porcentaje = Math.round((aprobadas / total) * 100);
   document.getElementById("progreso-general").style.width = porcentaje + "%";
   document.getElementById("progreso-texto").textContent = porcentaje + "%";
@@ -168,11 +181,10 @@ materias.forEach(m => {
     localStorage.setItem(m.dataset.id, m.classList[1]);
     actualizarProgreso();
   };
-}); 
+});
 
 actualizarProgreso();
 </script>
 
 </body>
 </html>
-
