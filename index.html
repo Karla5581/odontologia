@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Odontología</title>
- 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odontología</title>
+  
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -42,10 +43,22 @@ h1 {
 }
 
 .malla {
-  display: flex;
+  display: grid;
   gap: 20px;
-  overflow-x: auto;
+} 
+/* Computadora */
+@media (min-width: 1024px) {
+  .malla {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
+/* Teléfono */
+@media (max-width: 1023px) {
+  .malla {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 
 .semestre {
   background: #ffffff;
