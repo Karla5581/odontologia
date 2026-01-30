@@ -53,24 +53,36 @@
 
     /* Computadora */
     @media (min-width: 1024px) {
-      .malla {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
+  .malla {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .materia {
+    font-size: 14px;
+  }
+}
+ 
 
     /* Teléfono */
     @media (max-width: 1023px) {
-      .malla {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
+  .materia {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .semestre h3 {
+    font-size: 14px;
+  }
+}
+
 
     .semestre {
-      background: #ffffff;
-      padding: 15px;
-      border-radius: 14px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
 
     .semestre h3 {
       text-align: center;
