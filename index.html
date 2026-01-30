@@ -126,15 +126,21 @@ function actualizarProgreso() {
 
   semestres.forEach((_, i) => {
     const semMaterias = document.querySelectorAll(`[data-id^="${i}-"]`);
-    const aprob = [...semMaterias].filter(m => m.classList.contains("aprobada")).length;
-    const porcentaje = Math.round(aprobadas / total * 100);
+    const aprob = [...semMaterias].filter(m =>
+      m.classList.contains("aprobada")
+    ).length; 
+ 
+    // ✅ barra por semestre
+    document.getElementById(`sem-${i}`).style.width =
+      (aprob / semMaterias.length * 100) + "%";
 
-document.getElementById("progreso-general").style.width = porcentaje + "%";
-document.getElementById("progreso-texto").textContent = porcentaje + "%";
     aprobadas += aprob;
   });
 
-  document.getElementById("progreso-general").style.width = (aprobadas / total * 100) + "%";
+  // ✅ progreso general
+  const porcentaje = Math.round((aprobadas / total) * 100);
+  document.getElementById("progreso-general").style.width = porcentaje + "%";
+  document.getElementById("progreso-texto").textContent = porcentaje + "%";
 }
 
 materias.forEach(m => {
@@ -156,3 +162,4 @@ actualizarProgreso();
 
 </body>
 </html>
+
