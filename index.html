@@ -1,0 +1,155 @@
+malla-odontologia.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Malla Académica Odontología</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.progress-container {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.progress-label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.progress-bar {
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 14px;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: #7fbf9b;
+  transition: width 0.3s;
+}
+
+.malla {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+.semestre {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 14px;
+  min-width: 260px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.semestre h3 {
+  text-align: center;
+  color: #333;
+}
+
+.materia {
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* Estados */
+.pendiente { background: #e5e5e5; color: #444; }
+.curso { background: #e8dcc6; color: #4a3b1f; }
+.aprobada { background: #cfe8d8; color: #245c3a; }
+</style>
+</head>
+
+<body>
+
+<h1>Malla Académica – Odontología</h1>
+
+<!-- PROGRESO GENERAL -->
+<div class="progress-container">
+  <div class="progress-label">Progreso general de la carrera</div>
+  <div class="progress-bar">
+    <div class="progress" id="progreso-general"></div>
+  </div>
+</div>
+
+<div class="malla">
+
+<!-- PLANTILLA DE SEMESTRE -->
+<script>
+const semestres = [
+  ["Anatomía Humana I","Embriología","Histología","Bioquímica","Anatomía Dental","Psicología"],
+  ["Anatomía de Cabeza y Cuello","Fisiología","Microbiología","Histología Bucal","Odontología Preventiva I","Materiales Odontológicos","Seguridad Ocupacional y Control de Infecciones"],
+  ["Farmacología I","Patología Humana","Propedéuticas y Semiología","Radiología Dental","Odontología Preventiva II","Bioética y Normatividad","Oclusión"],
+  ["Patología Bucal y Maxilofacial","Farmacología Odontológica","Prótesis Dental","Operatoria Dental","Exodoncia","Urgencias Odontológicas","Anestesia Bucal"],
+  ["Urgencias Odontológicas","Periodoncia","Prótesis Parcial Fija","Clínica de Exodoncia","Endodoncia","Clínica de Operatoria Dental"],
+  ["Clínica de Endodoncia","Clínica de Periodoncia","Clínica de Operatoria Dental II","Clínica de Prótesis Parcial Fija","Prostodoncia Total","Prótesis Parcial Removible"],
+  ["Clínica de Prótesis Parcial Removible","Clínica de Prótesis Total","Clínica de Odontopediatría","Clínica Integral I","Odontología Forense"],
+  ["Ortodoncia y Ortopedia Dentomaxilofacial","Técnicas Quirúrgicas","Cirugía Maxilofacial","Clínica Integral de Odontopediatría","Clínica Integral II","Teorías y Técnicas de Investigación"],
+  ["Ortodoncia y Ortopedia Dentomaxilofacial","Clínica de Cirugía Bucal","Administración de Consultorio Dental","Seminario de Casos Clínicos","Seminario de Tesis"]
+];
+
+document.write(semestres.map((materias, i) => `
+<div class="semestre">
+  <h3>${i+1}° Semestre</h3>
+  <div class="progress-bar"><div class="progress" id="sem-${i}"></div></div>
+  ${materias.map((m,j)=>`<div class="materia pendiente" data-id="${i}-${j}">${m}</div>`).join("")}
+</div>
+`).join(""));
+</script>
+
+</div>
+
+<script>
+const materias = document.querySelectorAll('.materia');
+
+function actualizarProgreso() {
+  let total = materias.length;
+  let aprobadas = 0;
+
+  semestres.forEach((_, i) => {
+    const semMaterias = document.querySelectorAll(`[data-id^="${i}-"]`);
+    const aprob = [...semMaterias].filter(m => m.classList.contains("aprobada")).length;
+    document.getElementById(`sem-${i}`).style.width = (aprob / semMaterias.length * 100) + "%";
+    aprobadas += aprob;
+  });
+
+  document.getElementById("progreso-general").style.width = (aprobadas / total * 100) + "%";
+}
+
+materias.forEach(m => {
+  const saved = localStorage.getItem(m.dataset.id);
+  if (saved) m.className = "materia " + saved;
+
+  m.onclick = () => {
+    if (m.classList.contains("pendiente")) m.className = "materia curso";
+    else if (m.classList.contains("curso")) m.className = "materia aprobada";
+    else m.className = "materia pendiente";
+
+    localStorage.setItem(m.dataset.id, m.classList[1]);
+    actualizarProgreso();
+  };
+});
+
+actualizarProgreso();
+</script>
+
+</body>
+</html>
